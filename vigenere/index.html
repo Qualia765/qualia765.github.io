@@ -1,0 +1,256 @@
+<style>
+    body {
+        background-color: #233c3c;
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    p {
+        color: white;
+    }
+
+    h2 {
+        color: #ff9372;
+    }
+
+    textarea {
+        width: 300
+    }
+
+    h4 {
+        color: #E8BD84;
+    }
+
+    div {
+        float: left;
+        width: max(50%, 420px);
+    }
+
+    h1 {
+        color:#ff7575;
+    }
+    a {
+        color: white;
+    }
+    a:hover {
+        color: #CBC5E8;
+    }
+</style>
+<h1>Vigenere Cipher</h1>
+<title>Vigenere Cipher</title>
+<p>By <a href="https://therealquentin765.github.io/">Quentin765</a></p>
+<div>
+    <h2>Plaintext</h2>
+    <textarea id="plain"></textarea>
+    <h2>Ciphertext</h2>
+    <textarea id="cipher"></textarea>
+    <br><br>
+    <h2>Key:</h2>
+    <input style="width:300" id="key" type="text">
+    <br><br>
+    <input type="button" onclick="encrypt()" value="Encrypt">
+    <input type="button" onclick="decrypt()" value="Decrypt">
+    <p id="info"></p>
+    <!--input type="button" onclick="ref()" value="Reference"-->
+    <input type="button" onclick="crack()" value="Crack">
+    <h2>Reference:</h2>
+    <textarea id="reference"></textarea>
+</div>
+<script>
+    const PLAIN = document.getElementById('plain')
+    const CIPHER = document.getElementById('cipher')
+    const KEY = document.getElementById('key')
+    const INFO = document.getElementById('info')
+    const CHARS = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM `-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?"
+    const REFERENCE = document.getElementById('reference')
+    function clean(input) {
+        return input.replaceAll('\t', '    ').replaceAll('\n', ' ').replaceAll(/[^a-zA-Z0-9`\-=\[\]\\;',\./~!@#\$%\^&\*\(\)_\+\{\}\|:"<>\? ]/g, '')
+    }
+    function getChar(index) {
+        let modResult = index % CHARS.length
+        if (modResult < 0) return CHARS[CHARS.length + modResult]
+        else return CHARS[modResult]
+    }
+    function shiftCharBy(input, amount) {
+        return getChar(CHARS.indexOf(input) + amount)
+    }
+    function encrypt() {
+        let input = clean(PLAIN.value)
+        let result = ""
+        let keyIndex = 0
+        for (let i of input) {
+            result += shiftCharBy(i, CHARS.indexOf(KEY.value[keyIndex]))
+            keyIndex = (keyIndex + 1) % KEY.value.length
+        }
+        CIPHER.value = result
+    }
+    function decrypt() {
+        let input = clean(CIPHER.value)
+        let result = ""
+        let keyIndex = 0
+        for (let i of input) {
+            result += shiftCharBy(i, CHARS.length - CHARS.indexOf(KEY.value[keyIndex]))
+            keyIndex = (keyIndex + 1) % KEY.value.length
+        }
+        PLAIN.value = result
+    }
+    function getHmm(finder) {
+        let input = clean(CIPHER.value)
+        let result = {}
+        for (let i = Math.max(finder, 0); i < input.length; i += KEY.value.length) {
+            if (result[input[i]] == undefined) result[input[i]] = 0
+            result[input[i]]++
+        }
+        return result
+    }
+
+    function fixRef() {
+        let input = clean(REFERENCE.value)
+        let result = {}
+        for (let i = 0; i < input.length; i++) {
+            if (result[input[i]] == undefined) result[input[i]] = 0
+            result[input[i]]++
+        }
+        let realResult = ""
+        for (let i in result) {
+            realResult += `${i}:${result[i]};`
+        }
+        REFERENCE.value = realResult
+    }
+    function readValues(input) {
+        let thing = {}
+        let valueMode = false
+        let building = ''
+        let key
+        for (let i = 0; i < input.length; i++) {
+            if (valueMode) {
+                if (input[i] == ';') {
+                    thing[key] = Number(building)
+                    valueMode = false
+                    building = ''
+                } else {
+                    building += input[i]
+                }
+            } else {
+                key = input[i]
+                valueMode = true
+                i++
+            }
+        }
+        return thing
+    }
+    function normalizedRef() {
+        if (REFERENCE.value[1] != ':') fixRef()
+        let ref = readValues(REFERENCE.value)
+
+        let toltal = 0
+        for (let i in ref) {
+            toltal += ref[i]
+        }
+        for (let i in ref) {
+            ref[i] /= toltal
+        }
+
+        return ref
+    }
+
+    function normalizedHm() {
+        let hm = readValues(HM.value)
+
+        let toltal = 0
+        for (let i in hm) {
+            toltal += hm[i]
+        }
+        for (let i in hm) {
+            hm[i] /= toltal
+        }
+
+        return hm
+    }
+    function getDis(ref, hm, guess) {
+        let distance = 0
+        for (let i in hm) {
+            let refCheck = shiftCharBy(i, -guess)
+            if (ref[refCheck] == undefined) ref[refCheck] = 0
+            distance += Math.pow(hm[i] - ref[refCheck], 2)
+        }
+        return distance
+    }
+
+    function scan(hm) {
+        //get inputs
+        let ref = normalizedRef()
+        if (hm == undefined) hm = normalizedHm()
+
+        let result = {}
+        //loop though all the possible guesses
+        for (let guess = 0; guess < CHARS.length - 1; guess++) {
+            result[getChar(guess)] = getDis(ref, hm, guess)
+        }
+
+        let min = Infinity
+        let choice
+        let min2 = Infinity
+        let choice2
+        for (let i in result) {
+            if (result[i] <= min2) {
+                if (result[i] <= min) {
+                    min = result[i]
+                    choice = i
+                } else {
+                    min2 = result[i]
+                    choice2 = i
+                }
+            }
+        }
+        return {
+            choice1: choice,
+            choice2: choice2,
+            dis: min
+        }
+    }
+
+    function crack() {
+        let ref = normalizedRef()
+        let key = ''
+        let key2 = ''
+        let dis = 0
+        for (let finder = 0; finder < KEY.value.length; finder++) {
+            let hm = getHmm(finder)
+            let scanResult = scan(hm)
+            key += scanResult.choice1
+            key2 += scanResult.choice2
+            dis += scanResult.dis
+        }
+        dis = Math.sqrt(CIPHER.value.length / dis)
+        INFO.innerText = `Crack Accuracy is ${dis}\nAlternate Key Chars are:\n${key2}`
+        KEY.value = key
+        decrypt()
+    }
+</script>
+<div>
+    <h2>Usage:</h2>
+    <h4>Encryption:</h4>
+    <p>Input plaintext and key.</p>
+    <p>Press Encrypt.</p>
+    <p>Send ciphertext as message.</p>
+    <p>Send key secretly.</p>
+    <h4>Decryption:</h4>
+    <p>Input ciphertext and key.</p>
+    <p>Press Decrypt.</p>
+    <p>Plaintext is you message.</p>
+    <h4>Crack Encryption:</h4>
+    <p>Get some reference text (multiple paragraphs of any text).<br>
+        Put reference text into the reference box.<br>
+        When decrypting, this text will be convereted into character counts,<br>
+        which is more efficent to store if you wish to save it then what was inputed.</p>
+    <p>Set the key to any value, but with the length the text was encrypted with.<br>
+        If you don't know the key length, start with a length of 1.</p>
+    <p>Input ciphertext.</p>
+    <p>Press Crack.</p>
+    <p>If resulting plaintext is completly wrong, the key is probably the wrong size.</p>
+    <p>If the plaintext is even partly wrong the key length is correct.<br>
+        Substitue individual characters to fix varrious parts.<br>
+        Maybe use the suggested second choice options listed for replacement ideas</p>
+</div>
