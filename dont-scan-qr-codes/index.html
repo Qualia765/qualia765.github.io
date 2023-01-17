@@ -1,0 +1,48 @@
+<style>
+    body {
+        background-color:black;
+        color:white;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    div {
+        top: calc(100% - 30px);
+        position: absolute;
+    }
+
+    h1 {
+        font-size: min(24vw, 19vh);
+        animation: color-change .3s infinite;
+        animation-timing-function: linear;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+
+    @keyframes color-change {
+        0% {
+            color: white;
+            text-shadow: red 0 0 min(12vw, 10vh);
+        }
+
+        50% {
+            color: red;
+        }
+
+        100% {
+            color: black;
+            text-shadow: black 0 0 min(0vw, 0vh);
+        }
+    }
+</style>
+<h1>DON'T<br>SCAN<br>RANDOM<br>QRCODES!</h1>
+<div>
+    <h3>There are many risks assosiated with scanning random QR codes</h3>
+    <p>1. It can lead to a 'phishing' website. For example it looks like microsoft sign in, but instead collects you username and password.</p>
+    <p>2. You can download malware, which if you are not careful could infect your computer.</p>
+    <p>3. Websites can collect all sorts of tracking info, telling an attacker where you live, and what you interests are.</p>
+</div>
