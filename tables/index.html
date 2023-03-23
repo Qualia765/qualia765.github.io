@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: rgb(54, 45, 111);
+            text-align: center;
+        }
+
+        textarea {
+            background-color: rgb(24, 33, 73);
+            color: rgb(255, 194, 188);
+            /* border-color: rgb(175, 29, 102); */
+            border-radius: 10px;
+            border-width: 0;
+            padding: 5px;
+            box-shadow: black 2px 2px 8px, inset white 1px 1px 5px;
+        }
+
+        button {
+            background-color: rgb(255, 202, 103);
+            border-width: 0;
+            color: black;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: black 2px 2px 8px, inset white 1px 1px 5px;
+            transition: 0.5s;
+        }
+
+        button:hover {
+            background-color: rgb(164, 255, 103);
+            transition: 0.1s;
+            box-shadow: black 1px 1px 10px, inset white 1px 1px 5px, rgb(164, 255, 103) 0 0 8px;
+        }
+
+        p {
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        b {
+            color: rgb(255, 194, 188);
+        }
+
+        h1 {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            color: rgb(255, 194, 188);
+            text-shadow: black 2px 2px 8px;
+            margin-bottom: 0;
+        }
+
+        .credit {
+            margin-top: 0;
+            color:gray;
+            font-size: xx-small;
+        }
+    </style>
+    <title>New Seating Chart Maker</title>
+</head>
+
+<body>
+    <h1>New Seating Chart Maker</h1>
+    <p class="credit">Made by Quentin765</p>
+    <textarea id="text" rows=25 placeholder="Alice
+Bob
+Charley
+
+David
+Evan
+Felix
+
+Greer
+Hector
+
+Isabel
+John"></textarea>
+    <br>
+    <br>
+    <button id="button">Reorder</button>
+    <br>
+    <br>
+    <p><b>WHAT IT DOES:</b><br>This will make new seating charts for students.<br>It works in a way that will organize
+        the
+        students randomly,<br>and will ensure that they <b>do not sit at the same table as last time</b>.</p>
+    <br>
+    <br>
+    <p><b>INSTRUCTIONS:</b><br>Put in names of students one line after another.<br>Each table should be surrounded by
+        extra
+        returns.<br>Then press 'Reorder' once.</p>
+    <script>
+        const text = document.getElementById("text")
+        const button = document.getElementById("button")
+        let array = []//each sub array is a table and each element in that is the students sitting there
+        let total = 0; // number of student
+
+        //takes text input and makes array be the original configuration
+        function separate() {
+            let temp = text.value.trim().split(/\n/)
+            total = 0;
+            array = [[]]
+            temp.forEach(element => {
+                if (element == "") array.push([])
+                else {
+                    array[array.length - 1].push(element)
+                    total++
+                }
+            })
+        }
+
+        //find the table and student index of a given student based on overall index
+        function findOrder(index) {
+            let count = 0
+            for (let outer = 0; outer < array.length; outer++) {
+                for (let inner = 0; inner < array[outer].length; inner++) {
+                    if (count == index) return [outer, inner]
+                    count++
+                }
+            }
+            console.log("oof")
+            return [0, 0]
+        }
+
+        //does all the stuff
+        function reorder() {
+            let temp = [] // new tables and students array
+            for (let i = 0; i < array.length; i++) {
+                temp.push([])
+            }
+
+            //make order be a array of values from 0 to the number of students in random order
+            let order = []
+            for (let i = 0; i < total; i++) {
+                order.push(i)
+            }
+            order.sort(() => Math.random())
+
+            for (let i = 0; i < total; i++) {
+                let indexes = findOrder(order[i])
+                //find table with the fewest students at it that is not the table that the student is currently at
+                let best = 0
+                for (let j = 0; j < temp.length; j++) {
+                    if (j != indexes[0] && temp[j].length < temp[best].length) best = j
+                }
+                //transfer student from old to new
+                temp[best].push(array[indexes[0]][indexes[1]])
+                array[indexes[0]].splice(indexes[1], 1)
+            }
+            array = temp
+        }
+
+        function recombine() {
+            let output = ""
+            array.forEach(table => {
+                table.forEach(student => {
+                    output += student + "\n"
+                })
+                output += "\n"
+            })
+            text.value = output
+        }
+
+        button.onclick = event => {
+            separate()
+            reorder()
+            recombine()
+
+            console.log(array)
+        }
+    </script>
+</body>
+
+</html>
