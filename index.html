@@ -2,52 +2,79 @@
 <html>
 
 <head>
-    <title>Quentin765's Website!</title>
-    <style>
-        article {
-            width: min(100%, 1000px);
-            margin: auto;
-        }
-        body {
-            background-color: #113;
-            color: #FDE;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        a {
-            color:#9FE;
-            transition-delay:200ms;
-            text-shadow: #DFB 0 0 0;
-            transition-timing-function: cubic-bezier(0.405, -0.485, 0.980, 1.650);
-        }
-        a:hover {
-            text-shadow: #DFB 0 0 10px;
-        }
-        h1 {
-            color:#F7B;
-        }
-        h3 {
-            color:#FAB;
-        }
-    </style>
+	<title>Quentin765's Website!</title>
+	<style>
+		article {
+			width: min(100%, 1000px);
+			margin: auto;
+		}
+
+		body {
+			background-color: #113;
+			color: #FDE;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		a {
+			color: #9FE;
+			transition: text-shadow 2s cubic-bezier(0, 0.5, 0.25, 1);
+			;
+			text-shadow: #DFB 0 0 0;
+		}
+
+		a:hover {
+			text-shadow: #DFB 0 0 10px;
+			transition: text-shadow 0.25s cubic-bezier(0.5, 0, 0.5, 2);
+		}
+
+		h1 {
+			color: #F7B;
+		}
+
+		h3 {
+			color: #FAB;
+		}
+
+		body{
+			transform: matrix(
+				1,  0,
+				-4, 1,
+				-2000,  0
+			);
+		}
+		body.active {
+			transform: matrix(
+				1,  0,
+				0, 1,
+				0,  0
+			);
+			transition: transform 300ms cubic-bezier(0.9, 1.5, 1, 1.1);
+		}
+	</style>
 </head>
 
 <body>
-    <article>
-        <h1>Quentin765's Website!</h1>
-        <p>Hello and Welcome!</p>
-        <h3>Links!</h3>
-        <p><a href="https://www.youtube.com/@quentin765">YouTube</a></p>
-        <p><a href="https://www.linkedin.com/mwlite/in/quentin-farrell-89a173265">LinkedIn</a></p>
-        <p><a href="https://scratch.mit.edu/users/Quentin765/">Scratch</a></p>
-        <p><a href="https://github.com/TheRealQuentin765">GitHub</a></p>
-        <h3>Some websites I've made in the past</h3>
-        <p><a href="crucible">The Crucible Literary Analysis</a> - A thing I made for freshman english class.</p>
-        <p><a href="sus">Sustanability Club</a> - A thing I made for I bet you cant guess at my school.</p>
-        <p><a href="vigenere">Vigenere Cipher</a> - A mini project that can encrypt and decrypt with the vigenere cipher, but also crack it.</p>
-        <p><a href="dont-scan-qr-codes">Don't Scan Random QR Codes</a> - You should put this on a big QR code then scatter them around.</p>
-        <p><a href="cellular automaton">Game of Life</a> - Anouther mini project.</p>
-        <p>I have a couple other things that are not listed here becuase I too lazy to find the links.</p>
-    </article>
+	<article>
+		<h1>Quentin765's Website!</h1>
+		<p>Hello and Welcome!</p>
+		<h3>Links!</h3>
+		<p><a href="https://www.youtube.com/@quentin765">YouTube</a></p>
+		<p><a href="https://www.linkedin.com/mwlite/in/quentin-farrell-89a173265">LinkedIn</a></p>
+		<p><a href="https://scratch.mit.edu/users/Quentin765/">Scratch</a></p>
+		<p><a href="https://github.com/TheRealQuentin765">GitHub</a></p>
+		<h3>Some websites I've made in the past</h3>
+		<p><a href="crucible">The Crucible Literary Analysis</a> - A thing I made for freshman english class.</p>
+		<p><a href="sus">Sustanability Club</a> - A thing I made for I bet you cant guess at my school.</p>
+		<p><a href="vigenere">Vigenere Cipher</a> - A mini project that can encrypt and decrypt with the vigenere cipher, but also crack it.</p>
+		<p><a href="dont-scan-qr-codes">Don't Scan Random QR Codes</a> - You should put this on a big QR code then scatter them around.</p>
+		<p><a href="cellular automaton">Game of Life</a> - Anouther mini project.</p>
+		<p>I have a couple other things that are not listed here becuase I too lazy to find the links.</p>
+	</article>
+	<script>
+		setTimeout(function () {
+			document.body.classList.add("active")
+		}, 1)
+	</script>
 </body>
-    
+
 </html>
