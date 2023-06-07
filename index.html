@@ -1,114 +1,118 @@
-<!DOCTYPE html>
-<html>
+<style>
+	.section1,
+	article {
+		width: 100%;
+		position: relative;
+		transform-style: preserve-3d;
+	}
 
-<head>
-	<title>Quentin765's Website!</title>
+	.section1{
+		min-height: calc(100vh + 550px);
+		content: "";
+		width: 100%;
+		position: absolute;
+		background: url("hype.jpg") top center;
+		background-size: cover;
+		transform: translateZ(-4px) scale(5) translateY(50px);
+	}
+ 
+	html {
+		height: 100vh;
+		overflow: hidden;
+	}
 
-	<meta name="title" content="Quentin765's Website">
-	<meta name="description" content="Quentin is a VERY cool guy. Here he has some of his stuff. 😉">
-	<meta name="robots" content="index, follow">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="language" content="English">
-	<meta name="author" content="Quentin765">
+	body {
+		font-size: 1.5em;
+		perspective: 1px;
+		transform-style: preserve-3d;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		height: 100vh;
+		width: 100vw;
+		margin: 0;
+		color: #FDE;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #120D13;
+	}
 
-	<style>
-		.important {
-			background-color: #D00;
-			border-radius: 4px;
-			padding:3px;
-			box-shadow: #000 1px 1px 2px;
-		}
+	article {
+		width: min(80%, 1000px);
+		margin: auto;
+		backdrop-filter: blur(10px);
+		border-radius: 30px;
+		padding: 10px;
+		background-color: #113A;
+		margin-top: calc(100vh - 10px - 6em);
+		box-shadow: 3px 3px 3px 3px #FFF2 inset ,
+			-3px -3px 3px 3px #0003 inset;
+	}
 
-		article {
-			width: min(100%, 1000px);
-			margin: auto;
-		}
+	a {
+		color: #9FE;
+		transition: text-shadow 2s cubic-bezier(0, 0.5, 0.25, 1);
+		;
+		text-shadow: #DFB 0 0 0;
+	}
 
-		body {
-			background-color: #113;
-			color: #FDE;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
+	.youtube {
+		background-color: #D00;
+		border-radius: 4px;
+		padding: 3px;
+		box-shadow: #000 1px 1px 2px;
+	}
 
-		a {
-			color: #9FE;
-			transition: text-shadow 2s cubic-bezier(0, 0.5, 0.25, 1);
-			;
-			text-shadow: #DFB 0 0 0;
-		}
+	a:hover {
+		text-shadow: #DFB 0 0 10px;
+		transition: text-shadow 0.25s cubic-bezier(0.5, 0, 0.5, 2);
+	}
 
-		a:hover {
-			text-shadow: #DFB 0 0 10px;
-			transition: text-shadow 0.25s cubic-bezier(0.5, 0, 0.5, 2);
-		}
+	h1 {
+		font-size: 3em;
+		color: #F7B;
+	}
 
-		h1 {
-			color: #F7B;
-		}
+	h3 {
+		font-size: 2em;
+		color: #FAB;
+	}
+</style>
 
-		h3 {
-			color: #FAB;
-		}
-
-		body{
-			transition: transform 300ms cubic-bezier(0.9, 1.5, 1, 1.1);
-			transform: matrix(
-				1,  0,
-				0, 1,
-				0,  0
-			);
-		}
-		body.active {
-			transition: transform 1ms cubic-bezier(0.9, 1.5, 1, 1.1);
-			transform: matrix(
-				1,  0,
-				-4, 1,
-				-2000,  0
-			);
-		}
-	</style>
-</head>
-
-<body>
-	<article>
-		<h1>Quentin765's Website!</h1>
-		<p>Hello and Welcome!</p>
-		<br>
-		<h3>Links!</h3>
-		<p><a class="important" href="https://www.youtube.com/@quentin765">YouTube</a></p>
-		<p><a href="https://www.linkedin.com/mwlite/in/quentin-farrell-89a173265">LinkedIn</a></p>
-		<p><a href="https://scratch.mit.edu/users/Quentin765/">Scratch</a></p>
-		<p><a href="https://github.com/TheRealQuentin765">GitHub</a></p>
-		<br>
-		<h3>Some websites I've made in the past</h3>
-		<p><a href="crucible">The Crucible Literary Analysis</a> - A thing I made for highschool freshman english class.</p>
-		<p><a href="sus">Sustainability Club</a> - A thing I made for I bet you cant guess at my school.</p>
-		<p><a href="vigenere">Vigenere Cipher</a> - A mini project that can encrypt and decrypt with the vigenere cipher, but also crack it.</p>
-		<p><a href="dont-scan-qr-codes">Don't Scan Random QR Codes</a> - You should put this on a big QR code then scatter them around.</p>
-		<p><a href="cellular automaton">Game of Life</a> - Another mini project.</p>
-		<p>I have a couple other things that are not listed here because I too lazy to find the links.</p>
-		<br>
-		<h3>Interests</h3>
-		<ul>
-			<li>Game Design</li>
-			<li>Math</li>
-			<li>Math</li>
-			<li>Programming</li>
-			<li>Modded Minecraft</li>
-			<li>Physics</li>
-			<li>Video Editing</li>
-			<li>Drawing</li>
-			<li>Getting Outside</li>
-			<li>Producing Music</li>
-			<li>3d Animation</li>
-		</ul>
-	</article>
-	<script>
-		document.body.classList.add("active")
-		setTimeout(function () {
-			document.body.classList.remove("active")
-		}, 1)
-	</script>
-</body>
-
-</html>
+<div class="section1">
+	<!-- <div class="text">Hello!</div> -->
+</div>
+<article>
+	<h1>Quentin765's Website!</h1>
+	<p>Hello and Welcome!</p>
+	<br>
+	<h3>Links!</h3>
+	<p><a class="youtube" href="https://www.youtube.com/@quentin765">YouTube</a></p>
+	<p><a href="https://www.linkedin.com/mwlite/in/quentin-farrell-89a173265">LinkedIn</a></p>
+	<p><a href="https://scratch.mit.edu/users/Quentin765/">Scratch</a></p>
+	<p><a href="https://github.com/TheRealQuentin765">GitHub</a></p>
+	<br>
+	<h3>Some websites I've made in the past</h3>
+	<p><a href="crucible">The Crucible Literary Analysis</a> - A thing I made for highschool freshman english
+		class.</p>
+	<p><a href="sus">Sustainability Club</a> - A thing I made for I bet you cant guess at my school.</p>
+	<p><a href="vigenere">Vigenere Cipher</a> - A mini project that can encrypt and decrypt with the vigenere
+		cipher, but also crack it.</p>
+	<p><a href="dont-scan-qr-codes">Don't Scan Random QR Codes</a> - You should put this on a big QR code then
+		scatter them around.</p>
+	<p><a href="cellular automaton">Game of Life</a> - Another mini project.</p>
+	<p>I have a couple other things that are not listed here because I too lazy to find the links.</p>
+	<br>
+	<h3>Interests</h3>
+	<ul>
+		<li>Game Design</li>
+		<li>Math</li>
+		<li>Math</li>
+		<li>Programming</li>
+		<li>Modded Minecraft</li>
+		<li>Physics</li>
+		<li>Video Editing</li>
+		<li>Drawing</li>
+		<li>Getting Outside</li>
+		<li>Producing Music</li>
+		<li>3d Animation</li>
+	</ul>
+</article>
